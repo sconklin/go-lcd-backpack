@@ -1,6 +1,9 @@
 package hd44780
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 const (
 	// Commands
@@ -38,44 +41,49 @@ const (
 )
 
 type Lcd struct {
-	i2c *I2C
+	i2c       *I2C
+	backlight bool
 }
 
 func NewLcd(i2c *I2C) (*Lcd, error) {
-	this := &Lcd{i2c: i2c}
+	this := &Lcd{i2c: i2c, backlight: false}
 
-	err := this.Write(0x03, 0)
+	err := this.write(0x03, 0)
 	if err != nil {
 		return nil, err
 	}
-	err = this.Write(0x03, 0)
+	err = this.write(0x03, 0)
 	if err != nil {
 		return nil, err
 	}
-	err = this.Write(0x03, 0)
+	err = this.write(0x03, 0)
 	if err != nil {
 		return nil, err
 	}
 	// setting up 4-bit mode
-	err = this.Write(0x02, 0)
+	err = this.write(0x02, 0)
 	if err != nil {
 		return nil, err
 	}
 	time.Sleep(100 * time.Millisecond)
 
-	err = this.Write(CMD_Function_Set|OPT_2_Lines|OPT_5x8_Dots|OPT_4Bit_Mode, 0)
+	err = this.write(CMD_Function_Set|OPT_2_Lines|OPT_5x8_Dots|OPT_4Bit_Mode, 0)
 	if err != nil {
 		return nil, err
 	}
-	err = this.Write(CMD_Display_Control|OPT_Enable_Display, 0)
+	err = this.write(CMD_Display_Control|OPT_Enable_Display, 0)
 	if err != nil {
 		return nil, err
 	}
-	err = this.Write(CMD_Clear_Display, 0)
+	err = this.write(CMD_Entry_Mode|OPT_Increment, 0)
 	if err != nil {
 		return nil, err
 	}
-	err = this.Write(CMD_Entry_Mode|OPT_Increment, 0)
+	err = this.Clear()
+	if err != nil {
+		return nil, err
+	}
+	err = this.Home()
 	if err != nil {
 		return nil, err
 	}
@@ -83,22 +91,21 @@ func NewLcd(i2c *I2C) (*Lcd, error) {
 	return this, nil
 }
 
-func (this *Lcd) Strobe(data byte) error {
-	/*	buf := make([]byte, 1)
-		_, err := this.i2c.Read(buf)
-		if err != nil {
-			return err
-		}*/
-	_, err := this.i2c.Write([]byte{data /*buf[0]*/ | PIN_EN | PIN_BACKLIGHT})
+func (this *Lcd) strobe(data byte) error {
+	b := data | PIN_EN
+	if this.backlight {
+		b |= PIN_BACKLIGHT
+	}
+	_, err := this.i2c.Write([]byte{b})
 	if err != nil {
 		return err
 	}
 	time.Sleep(5 * time.Millisecond)
-	/*	_, err = this.i2c.Read(buf)
-		if err != nil {
-			return err
-		}*/
-	_, err = this.i2c.Write([]byte{(data /*buf[0]*/ & ^PIN_EN) | PIN_BACKLIGHT})
+	b = data
+	if this.backlight {
+		b |= PIN_BACKLIGHT
+	}
+	_, err = this.i2c.Write([]byte{b})
 	if err != nil {
 		return err
 	}
@@ -106,51 +113,28 @@ func (this *Lcd) Strobe(data byte) error {
 	return nil
 }
 
-func (this *Lcd) WriteFourBits(data byte) error {
-	_, err := this.i2c.Write([]byte{data | PIN_BACKLIGHT})
+func (this *Lcd) writeFourBits(data byte) error {
+	b := data
+	if this.backlight {
+		b |= PIN_BACKLIGHT
+	}
+	_, err := this.i2c.Write([]byte{b})
 	if err != nil {
 		return err
 	}
-	err = this.Strobe(data)
-	if err != nil {
-		return err
-	}
-	/*	for i := 0; i < 1000; i++ {
-		_, err := this.i2c.Write([]byte{PIN_RW})
-		if err != nil {
-			return err
-		}
-		buf := make([]byte, 1)
-		_, err = this.i2c.Read(buf)
-		if err != nil {
-			return err
-		}
-		log.Print(buf[0])
-		if buf[0]&0x80 == 0 {
-			break
-		}
-	}*/
-	return nil
-}
-
-func (this *Lcd) Write(data byte, pins byte) error {
-	err := this.WriteFourBits(pins | (data & 0xF0))
-	if err != nil {
-		return err
-	}
-	err = this.WriteFourBits(pins | ((data << 4) & 0xF0))
+	err = this.strobe(data)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (this *Lcd) Clear() error {
-	err := this.Write(CMD_Clear_Display, 0)
+func (this *Lcd) write(data byte, extraPins byte) error {
+	err := this.writeFourBits((data & 0xF0) | extraPins)
 	if err != nil {
 		return err
 	}
-	err = this.Write(CMD_Return_Home, 0)
+	err = this.writeFourBits(((data << 4) & 0xF0) | extraPins)
 	if err != nil {
 		return err
 	}
@@ -158,29 +142,12 @@ func (this *Lcd) Clear() error {
 }
 
 func (this *Lcd) ShowMessage(text string, line byte) error {
-	if line == 2 {
-		err := this.Write(CMD_DDRAM_Set|0x40, 0)
-		if err != nil {
-			return err
-		}
-	} else if line == 3 {
-		err := this.Write(CMD_DDRAM_Set|0x14, 0)
-		if err != nil {
-			return err
-		}
-	} else if line == 4 {
-		err := this.Write(CMD_DDRAM_Set|0x44, 0)
-		if err != nil {
-			return err
-		}
-	} else {
-		err := this.Write(CMD_DDRAM_Set, 0)
-		if err != nil {
-			return err
-		}
+	err := this.SetPosition(line, 0)
+	if err != nil {
+		return err
 	}
 	for _, c := range text {
-		err := this.Write(byte(c), PIN_RS)
+		err := this.write(byte(c), PIN_RS)
 		if err != nil {
 			return err
 		}
@@ -189,17 +156,79 @@ func (this *Lcd) ShowMessage(text string, line byte) error {
 }
 
 func (this *Lcd) TestWriteCGRam() error {
-	err := this.Write(CMD_CGRAM_Set, 0)
+	err := this.write(CMD_CGRAM_Set, 0)
 	if err != nil {
 		return err
 	}
 	var a byte = 0x55
 	for i := 0; i < 80; i++ {
-		err := this.Write(a, PIN_RS)
+		err := this.write(a, PIN_RS)
 		if err != nil {
 			return err
 		}
 		a = a ^ 0xFF
 	}
 	return nil
+}
+
+func (this *Lcd) BacklightOn() error {
+	err := this.write(0x00, PIN_BACKLIGHT)
+	if err != nil {
+		return err
+	}
+	this.backlight = true
+	return nil
+}
+
+func (this *Lcd) BacklightOff() error {
+	err := this.write(0x00, 0)
+	if err != nil {
+		return err
+	}
+	this.backlight = false
+	return nil
+}
+
+func (this *Lcd) Clear() error {
+	err := this.write(CMD_Clear_Display, 0)
+	return err
+}
+
+func (this *Lcd) Home() error {
+	err := this.write(CMD_Return_Home, 0)
+	return err
+}
+
+func (this *Lcd) SetPosition(line, pos byte) error {
+	const MAX_POS = 15
+	if pos > MAX_POS {
+		return fmt.Errorf("Cursor position %d "+
+			"must be within the range [0..%d]", pos, MAX_POS)
+	}
+	var b byte = CMD_DDRAM_Set
+	if line == 2 {
+		b += 0x40
+	} else if line == 3 {
+		b += 0x10
+	} else if line == 4 {
+		b += 0x50
+	}
+	b += pos
+	err := this.write(b, 0)
+	return err
+}
+
+func (this *Lcd) Write(buf []byte) (int, error) {
+	for i, c := range buf {
+		err := this.write(c, PIN_RS)
+		if err != nil {
+			return i, err
+		}
+	}
+	return len(buf), nil
+}
+
+func (this *Lcd) Command(cmd byte) error {
+	err := this.write(cmd, 0)
+	return err
 }

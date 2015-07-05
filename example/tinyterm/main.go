@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"sync"
 
+	"github.com/d2r2/go-hd44780/hd44780"
 	"github.com/davecheney/i2c"
 )
 
@@ -32,7 +33,7 @@ type lcdWriter struct {
 	sync.Mutex
 	pos byte       // screen position, 4 x 16 chars
 	buf [0x60]byte // hd44780 ram, arranged by lunacy
-	lcd *i2c.Lcd
+	lcd *hd44780.Lcd
 }
 
 // maps from linear memory locations to crackful hd44780 memory locations
@@ -97,10 +98,10 @@ func fill(b []byte, c byte) {
 }
 
 func main() {
-	dev, err := i2c.New(0x27, 1) // vga port
+	dev, err := hd44780.NewI2C(0x27, 2) // vga port
 	check(err)
 
-	lcd, err := i2c.NewLcd(dev, 2, 1, 0, 4, 5, 6, 7, 3)
+	lcd, err := hd44780.NewLcd(dev)
 	check(err)
 	lcd.BacklightOn()
 	lcd.Clear()
