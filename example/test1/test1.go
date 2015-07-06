@@ -16,22 +16,26 @@ func checkError(err error) {
 }
 
 func main() {
-	i2c, err := hd44780.NewI2C(0x27, 2)
+	i2c, err := hd44780.NewI2C(0x27, 1)
 	checkError(err)
 	defer i2c.Close()
 	lcd, err := hd44780.NewLcd(i2c)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
-	err = lcd.ShowMessage("Hello world!!!", 1)
+	err = lcd.ShowMessage("*Hello wild world !!!*", 1)
 	checkError(err)
-	err = lcd.ShowMessage("Welcome to RPi!", 2)
+	err = lcd.ShowMessage("Welcome to RPi dude!", 2)
+	checkError(err)
+	err = lcd.ShowMessage("*How are you doing?*", 3)
+	checkError(err)
+	err = lcd.ShowMessage("*What's up brother?*", 4)
 	checkError(err)
 	time.Sleep(5 * time.Second)
-	for i := 0; i <= 15; i++ {
+	for i := 0; i <= 12; i++ {
 		var buf bytes.Buffer
-		for j := 0; j <= 15; j++ {
-			buf.Write([]byte{byte(i*16 + j)})
+		for j := 0; j <= 19; j++ {
+			buf.Write([]byte{byte(i*20 + j)})
 		}
 		err = lcd.ShowMessage(buf.String(), 1)
 		checkError(err)
@@ -40,10 +44,10 @@ func main() {
 	time.Sleep(5 * time.Second)
 	err = lcd.TestWriteCGRam()
 	checkError(err)
-	for i := 0; i <= 15; i++ {
+	for i := 0; i <= 12; i++ {
 		var buf bytes.Buffer
-		for j := 0; j <= 15; j++ {
-			buf.Write([]byte{byte(i*16 + j)})
+		for j := 0; j <= 19; j++ {
+			buf.Write([]byte{byte(i*20 + j)})
 		}
 		err = lcd.ShowMessage(buf.String(), 1)
 		checkError(err)

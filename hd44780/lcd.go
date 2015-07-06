@@ -209,9 +209,9 @@ func (this *Lcd) SetPosition(line, pos byte) error {
 	if line == 2 {
 		b += 0x40
 	} else if line == 3 {
-		b += 0x10
+		b += 0x14
 	} else if line == 4 {
-		b += 0x50
+		b += 0x54
 	}
 	b += pos
 	err := this.write(b, 0)
