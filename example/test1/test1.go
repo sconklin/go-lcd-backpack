@@ -16,20 +16,20 @@ func checkError(err error) {
 }
 
 func main() {
-	i2c, err := hd44780.NewI2C(0x27, 1)
+	i2c, err := hd44780.NewI2C(0x27, 2)
 	checkError(err)
 	defer i2c.Close()
 	lcd, err := hd44780.NewLcd(i2c)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
-	err = lcd.ShowMessage("*Hello wild world !!!*", 1)
+	err = lcd.ShowMessage("--=! Let's rock !=--", 1)
 	checkError(err)
 	err = lcd.ShowMessage("Welcome to RPi dude!", 2)
 	checkError(err)
-	err = lcd.ShowMessage("*How are you doing?*", 3)
+	err = lcd.ShowMessage("I'm lazy to be lazy.", 3)
 	checkError(err)
-	err = lcd.ShowMessage("*What's up brother?*", 4)
+	err = lcd.ShowMessage("R2D2, where are you?", 4)
 	checkError(err)
 	time.Sleep(5 * time.Second)
 	for i := 0; i <= 12; i++ {
