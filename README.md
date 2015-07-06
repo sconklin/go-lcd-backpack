@@ -20,6 +20,11 @@ GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780/hd44780)
 ```bash
 $ go get -u github.com/d2r2/go-hd44780/hd44780
 ```
+
+## Credits
+
+This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was partially rewritten.
+
 ## License
 
 Go-hd44780 is licensed inder MIT License.
