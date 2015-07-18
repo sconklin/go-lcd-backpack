@@ -13,12 +13,12 @@ There is some variety in display size, so library was tested with two kinds (wid
 
 ## Getting help
 
-GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780/hd44780)
+GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780)
 
 ## Installation
 
 ```bash
-$ go get -u github.com/d2r2/go-hd44780/hd44780
+$ go get -u github.com/d2r2/go-hd44780
 ```
 
 ## Credits
