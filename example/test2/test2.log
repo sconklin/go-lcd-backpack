@@ -8573,3 +8573,123 @@ cd .
 $WORK/command-line-arguments/_obj/exe/test2
 2015/07/18 00:37:11 write /dev/i2c-2: communication error on send
 exit status 1
+WORK=/tmp/go-build197918661
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+cd .
+/usr/local/go/pkg/tool/linux_arm/5l -o $WORK/command-line-arguments/_obj/exe/test2 -L $WORK -L /root/gocode/pkg/linux_arm -w -extld=gcc $WORK/command-line-arguments.a
+$WORK/command-line-arguments/_obj/exe/test2
+2015/07/18 22:16:45 write /dev/i2c-2: communication error on send
+exit status 1
+WORK=/tmp/go-build461810583
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+# command-line-arguments
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use 5 (type int) as type bool in argument to dht.ReadDHTxxWithRetry
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use true (type bool) as type int in argument to dht.ReadDHTxxWithRetry
+WORK=/tmp/go-build036276187
+github.com/d2r2/go-dht
+mkdir -p $WORK/github.com/d2r2/go-dht/_obj/
+mkdir -p $WORK/github.com/d2r2/
+cd /root/gocode/src/github.com/d2r2/go-dht
+CGO_LDFLAGS="-g" "-O2" "-lrt" /usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -- -I $WORK/github.com/d2r2/go-dht/_obj/ dht.go
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -print-libgcc-file-name
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -c $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -lrt -pie
+/usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -dynimport $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o -dynout $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_all.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -Wl,-r -nostdlib /usr/lib/gcc/arm-linux-gnueabihf/4.6/libgcc.a -Wl,--build-id=none
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/github.com/d2r2/go-dht.a -trimpath $WORK -p github.com/d2r2/go-dht -D _/root/gocode/src/github.com/d2r2/go-dht -I $WORK -I /root/gocode/pkg/linux_arm -pack ./logger.go $WORK/github.com/d2r2/go-dht/_obj/_cgo_gotypes.go $WORK/github.com/d2r2/go-dht/_obj/dht.cgo1.go
+pack r $WORK/github.com/d2r2/go-dht.a $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 $WORK/github.com/d2r2/go-dht/_obj/_all.o # internal
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+# command-line-arguments
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use 5 (type int) as type bool in argument to dht.ReadDHTxxWithRetry
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use true (type bool) as type int in argument to dht.ReadDHTxxWithRetry
+WORK=/tmp/go-build285361335
+github.com/d2r2/go-dht
+mkdir -p $WORK/github.com/d2r2/go-dht/_obj/
+mkdir -p $WORK/github.com/d2r2/
+cd /root/gocode/src/github.com/d2r2/go-dht
+CGO_LDFLAGS="-g" "-O2" "-lrt" /usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -- -I $WORK/github.com/d2r2/go-dht/_obj/ dht.go
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -print-libgcc-file-name
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -c $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -lrt -pie
+/usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -dynimport $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o -dynout $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_all.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -Wl,-r -nostdlib /usr/lib/gcc/arm-linux-gnueabihf/4.6/libgcc.a -Wl,--build-id=none
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/github.com/d2r2/go-dht.a -trimpath $WORK -p github.com/d2r2/go-dht -D _/root/gocode/src/github.com/d2r2/go-dht -I $WORK -I /root/gocode/pkg/linux_arm -pack ./logger.go $WORK/github.com/d2r2/go-dht/_obj/_cgo_gotypes.go $WORK/github.com/d2r2/go-dht/_obj/dht.cgo1.go
+pack r $WORK/github.com/d2r2/go-dht.a $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 $WORK/github.com/d2r2/go-dht/_obj/_all.o # internal
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+# command-line-arguments
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use 5 (type int) as type bool in argument to dht.ReadDHTxxWithRetry
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use true (type bool) as type int in argument to dht.ReadDHTxxWithRetry
+WORK=/tmp/go-build214775095
+github.com/d2r2/go-dht
+mkdir -p $WORK/github.com/d2r2/go-dht/_obj/
+mkdir -p $WORK/github.com/d2r2/
+cd /root/gocode/src/github.com/d2r2/go-dht
+CGO_LDFLAGS="-g" "-O2" "-lrt" /usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -- -I $WORK/github.com/d2r2/go-dht/_obj/ dht.go
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -print-libgcc-file-name
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -c $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -lrt -pie
+/usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -dynimport $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o -dynout $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_all.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -Wl,-r -nostdlib /usr/lib/gcc/arm-linux-gnueabihf/4.6/libgcc.a -Wl,--build-id=none
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/github.com/d2r2/go-dht.a -trimpath $WORK -p github.com/d2r2/go-dht -D _/root/gocode/src/github.com/d2r2/go-dht -I $WORK -I /root/gocode/pkg/linux_arm -pack ./logger.go $WORK/github.com/d2r2/go-dht/_obj/_cgo_gotypes.go $WORK/github.com/d2r2/go-dht/_obj/dht.cgo1.go
+pack r $WORK/github.com/d2r2/go-dht.a $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 $WORK/github.com/d2r2/go-dht/_obj/_all.o # internal
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+# command-line-arguments
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use 5 (type int) as type bool in argument to dht.ReadDHTxxWithRetry
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use true (type bool) as type int in argument to dht.ReadDHTxxWithRetry
+WORK=/tmp/go-build921382929
+github.com/d2r2/go-dht
+mkdir -p $WORK/github.com/d2r2/go-dht/_obj/
+mkdir -p $WORK/github.com/d2r2/
+cd /root/gocode/src/github.com/d2r2/go-dht
+CGO_LDFLAGS="-g" "-O2" "-lrt" /usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -- -I $WORK/github.com/d2r2/go-dht/_obj/ dht.go
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -print-libgcc-file-name
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o -c $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -I $WORK/github.com/d2r2/go-dht/_obj/ -g -O2 -o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -c $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_main.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -lrt -pie
+/usr/local/go/pkg/tool/linux_arm/cgo -objdir $WORK/github.com/d2r2/go-dht/_obj/ -dynimport $WORK/github.com/d2r2/go-dht/_obj/_cgo_.o -dynout $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+/usr/local/go/pkg/tool/linux_arm/5c -F -V -w -trimpath $WORK -I $WORK/github.com/d2r2/go-dht/_obj/ -I /usr/local/go/pkg/linux_arm -o $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 -D GOOS_linux -D GOARCH_arm $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.c
+gcc -I . -fPIC -marm -pthread -fmessage-length=0 -o $WORK/github.com/d2r2/go-dht/_obj/_all.o $WORK/github.com/d2r2/go-dht/_obj/_cgo_export.o $WORK/github.com/d2r2/go-dht/_obj/dht.cgo2.o -g -O2 -Wl,-r -nostdlib /usr/lib/gcc/arm-linux-gnueabihf/4.6/libgcc.a -Wl,--build-id=none
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/github.com/d2r2/go-dht.a -trimpath $WORK -p github.com/d2r2/go-dht -D _/root/gocode/src/github.com/d2r2/go-dht -I $WORK -I /root/gocode/pkg/linux_arm -pack ./logger.go $WORK/github.com/d2r2/go-dht/_obj/_cgo_gotypes.go $WORK/github.com/d2r2/go-dht/_obj/dht.cgo1.go
+pack r $WORK/github.com/d2r2/go-dht.a $WORK/github.com/d2r2/go-dht/_obj/_cgo_import.5 $WORK/github.com/d2r2/go-dht/_obj/_cgo_defun.5 $WORK/github.com/d2r2/go-dht/_obj/_all.o # internal
+command-line-arguments
+mkdir -p $WORK/command-line-arguments/_obj/
+mkdir -p $WORK/command-line-arguments/_obj/exe/
+cd /root/gocode/src/github.com/d2r2/go-hd44780/example/test2
+/usr/local/go/pkg/tool/linux_arm/5g -o $WORK/command-line-arguments.a -trimpath $WORK -p command-line-arguments -complete -D _/root/gocode/src/github.com/d2r2/go-hd44780/example/test2 -I $WORK -I /root/gocode/pkg/linux_arm -pack ./test2.go
+# command-line-arguments
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use 5 (type int) as type bool in argument to dht.ReadDHTxxWithRetry
+gocode/src/github.com/d2r2/go-hd44780/example/test2/test2.go:54: cannot use true (type bool) as type int in argument to dht.ReadDHTxxWithRetry

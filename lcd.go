@@ -2,9 +2,10 @@ package hd44780
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"time"
+
+	"github.com/d2r2/go-i2c"
 )
 
 const (
@@ -63,12 +64,12 @@ const (
 )
 
 type Lcd struct {
-	i2c       *I2C
+	i2c       *i2c.I2C
 	backlight bool
 	lcdType   LcdType
 }
 
-func NewLcd(i2c *I2C, lcdType LcdType) (*Lcd, error) {
+func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	initByteSeq := []byte{
 		0x03, 0x03, 0x03, // base initialization
@@ -196,7 +197,7 @@ func (this *Lcd) splitText(text string, options ShowOptions) []string {
 
 func (this *Lcd) ShowMessage(text string, options ShowOptions) error {
 	lines := this.splitText(text, options)
-	log.Printf("Output: %v\n", lines)
+	log.Debug("Output: %v\n", lines)
 	startLine, endLine := this.getLineRange(options)
 	i := 0
 	for {
