@@ -25,6 +25,10 @@ GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780)
 $ go get -u github.com/d2r2/go-hd44780
 ```
 
+## Quick tutorial
+
+NOTE: Type Hd44780 is not goroutine-safe, so use some synchronization method for multithread output to the display.
+
 ## Credits
 
 This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was partially rewritten.
