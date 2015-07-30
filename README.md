@@ -41,8 +41,10 @@ This is a fork from completely similar functionality (https://github.com/daveche
   - Extract content to folder /usr/local/go/.
   - Make links in /usr/bin/ for go, gofmt and godoc binaries located in /usr/local/go/bin/. Use "ln -s ..." command.
   - Setup all necessary Golang environments in .bashrc file. It should look like this:
-      
+    
+    ```bash
     export GOPATH=
+    ```
 
 - How to enable I2C bus on RPi device:
 
