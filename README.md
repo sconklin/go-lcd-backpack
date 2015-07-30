@@ -37,7 +37,7 @@ This is a fork from completely similar functionality (https://github.com/daveche
 
 - How to obtain fresh Golang installation to RPi device:
   
-  - Download from [Dave Cheney Unofficial ARM tarballs for Go](http://dave.cheney.net/unofficial-arm-tarballs) proper tar.gz file. You should choose between ARMv5, ARMv6 and ARMv7 architectures. Ordinary legacy RPi devices correspond to ARMv6 architecture, newest to ARMv7.
+  - Download proper tar.gz file from [Dave Cheney Unofficial ARM tarballs for Go](http://dave.cheney.net/unofficial-arm-tarballs). You should choose between ARMv5, ARMv6 and ARMv7 architectures. Usually legacy RPi devices correspond to ARMv6 architecture, newest to ARMv7.
   - Extract content to folder /usr/local/go/.
   - Make links in /usr/bin/ for go, gofmt and godoc binaries located in /usr/local/go/bin/. Use "ln -s ..." command.
   - Setup all necessary Golang environments in .bashrc file. It should look like this:
