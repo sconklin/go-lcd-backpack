@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/d2r2/go-hd44780/hd44780"
+	device "github.com/d2r2/go-hd44780"
 )
 
 func checkError(err error) {
@@ -16,20 +16,20 @@ func checkError(err error) {
 }
 
 func main() {
-	i2c, err := hd44780.NewI2C(0x27, 2)
+	i2c, err := device.NewI2C(0x27, 2)
 	checkError(err)
 	defer i2c.Close()
-	lcd, err := hd44780.NewLcd(i2c)
+	lcd, err := device.NewLcd(i2c, device.LCD_20x4)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
-	err = lcd.ShowMessage("--=! Let's rock !=--", 1)
+	err = lcd.ShowMessage("--=! Let's rock !=--", device.SHOW_LINE_1)
 	checkError(err)
-	err = lcd.ShowMessage("Welcome to RPi dude!", 2)
+	err = lcd.ShowMessage("Welcome to RPi dude!", device.SHOW_LINE_2)
 	checkError(err)
-	err = lcd.ShowMessage("I'm lazy to be lazy.", 3)
+	err = lcd.ShowMessage("I'm lazy to be lazy.", device.SHOW_LINE_3)
 	checkError(err)
-	err = lcd.ShowMessage("R2D2, where are you?", 4)
+	err = lcd.ShowMessage("R2D2, where are you?", device.SHOW_LINE_4)
 	checkError(err)
 	time.Sleep(5 * time.Second)
 	for i := 0; i <= 12; i++ {
@@ -37,7 +37,7 @@ func main() {
 		for j := 0; j <= 19; j++ {
 			buf.Write([]byte{byte(i*20 + j)})
 		}
-		err = lcd.ShowMessage(buf.String(), 1)
+		err = lcd.ShowMessage(buf.String(), device.SHOW_LINE_1)
 		checkError(err)
 		time.Sleep(1 * time.Second)
 	}
@@ -49,7 +49,7 @@ func main() {
 		for j := 0; j <= 19; j++ {
 			buf.Write([]byte{byte(i*20 + j)})
 		}
-		err = lcd.ShowMessage(buf.String(), 1)
+		err = lcd.ShowMessage(buf.String(), device.SHOW_LINE_1)
 		checkError(err)
 		time.Sleep(1 * time.Second)
 	}
