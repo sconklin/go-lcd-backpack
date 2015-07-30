@@ -27,11 +27,25 @@ $ go get -u github.com/d2r2/go-hd44780
 
 ## Quick tutorial
 
-NOTE: Type Hd44780 is not goroutine-safe, so use some synchronization method for multithread output to the display.
+WARNING: Library is not goroutine-safe, so use synchronization approach for simultaneous multithreaded output to the display.
 
 ## Credits
 
-This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was partially rewritten.
+This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten.
+
+## FAQ
+
+- How to obtain fresh Golang installation to RPi device:
+  
+  - Download from [Dave Cheney Unofficial ARM tarballs for Go](http://dave.cheney.net/unofficial-arm-tarballs) proper tar.gz file. You should choose between ARMv5, ARMv6 and ARMv7 architectures. Ordinary legacy RPi devices correspond to ARMv6, newest to ARMv7.
+  - Extract content to folder /usr/local/go/.
+  - Make links in /usr/bin/ for go, gofmt and godoc binaries located in /usr/local/go/bin/. Use "ln -s ..." command.
+
+- How to enable I2C bus on RPi device:
+
+- How to find display I2C bus and address:
+
+  Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more. To install utility you should run "apt-get install i2c-tools".
 
 ## License
 
