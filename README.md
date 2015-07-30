@@ -4,7 +4,7 @@ This library written in [Go programming language](https://golang.org/) to contro
 
 There is some variety in display size, so library was tested with two kinds (width x height): 16x2 and 20x4 (pictures 1 and 2 correspond to 16x2 display, picture 3 - 20x4 display):
 
-![image](https://raw.github.com/d2r2/go-hd44780/master/docs/16x2_20x4.jpg)
+![image](https://raw.github.com/d2r2/go-hd44780/master/docs/16x2_20x4_2.jpg)
 
 ## Compatibility
 
