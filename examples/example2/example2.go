@@ -9,6 +9,7 @@ import (
 
 	sensor "github.com/d2r2/go-dht"
 	device "github.com/d2r2/go-hd44780"
+	"github.com/d2r2/go-i2c"
 )
 
 func checkError(err error) {
@@ -32,10 +33,10 @@ func writeTime(lcd *device.Lcd, t time.Time, blink bool, m *sync.Mutex) error {
 }
 
 func main() {
-	i2c, err := device.NewI2C(0x27, 2)
+	i2c, err := i2c.NewI2C(0x27, 2)
 	checkError(err)
 	defer i2c.Close()
-	lcd, err := device.NewLcd(i2c, device.LCD_16x2)
+	lcd, err := device.NewLcd(i2c, device.LCD_20x4)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
@@ -51,10 +52,10 @@ func main() {
 	}()
 
 	for {
-		temp, hum, _, err := sensor.ReadDHTxxWithRetry(sensor.DHT11, 4, 5, true)
+		temp, hum, _, err := sensor.ReadDHTxxWithRetry(sensor.DHT22, 4, true, 5)
 		if err == nil {
 			m.Lock()
-			lcd.ShowMessage(fmt.Sprintf("T: %v*C Hum: %v%%", temp, hum),
+			lcd.ShowMessage(fmt.Sprintf("T: %0.0f*C Hum: %0.0f%%", temp, hum),
 				device.SHOW_LINE_2|device.SHOW_ELIPSE_IF_NOT_FIT)
 			m.Unlock()
 		} else {

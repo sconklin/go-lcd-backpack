@@ -7,6 +7,7 @@ import (
 	"time"
 
 	device "github.com/d2r2/go-hd44780"
+	"github.com/d2r2/go-i2c"
 )
 
 func checkError(err error) {
@@ -16,10 +17,10 @@ func checkError(err error) {
 }
 
 func main() {
-	i2c, err := device.NewI2C(0x27, 2)
+	i2c, err := i2c.NewI2C(0x27, 2)
 	checkError(err)
 	defer i2c.Close()
-	lcd, err := device.NewLcd(i2c, device.LCD_20x4)
+	lcd, err := device.NewLcd(i2c, device.LCD_16x2)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
@@ -27,10 +28,10 @@ func main() {
 	checkError(err)
 	err = lcd.ShowMessage("Welcome to RPi dude!", device.SHOW_LINE_2)
 	checkError(err)
-	err = lcd.ShowMessage("I'm lazy to be lazy.", device.SHOW_LINE_3)
-	checkError(err)
-	err = lcd.ShowMessage("R2D2, where are you?", device.SHOW_LINE_4)
-	checkError(err)
+	// err = lcd.ShowMessage("I'm lazy to be lazy.", device.SHOW_LINE_3)
+	// checkError(err)
+	// err = lcd.ShowMessage("R2D2, where are you?", device.SHOW_LINE_4)
+	// checkError(err)
 	time.Sleep(5 * time.Second)
 	for i := 0; i <= 12; i++ {
 		var buf bytes.Buffer
