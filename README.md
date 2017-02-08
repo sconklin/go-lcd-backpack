@@ -57,10 +57,6 @@ $ go get -u github.com/d2r2/go-hd44780
 
 > NOTE 2: If you experience issue with lcd-device stability play with strobe delays in routine `writeDataWithStrobe(data byte)`. Default settings: 200 ms (microseconds) for setting stober, and 30 ms for exposing it to zero. Try to increase them a little bit, if you expirience any malfunction.
 
-## Credits
-
-This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten with additional code modification.
-
 ## FAQ
 
 - How to obtain fresh Golang installation to RPi device (either any RPi clone):
@@ -75,6 +71,10 @@ This is a fork from completely similar functionality (https://github.com/daveche
 - How to find display I2C bus and address:
 
   Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run "apt-get install i2c-tools" on debian-kind system.
+
+## Credits
+
+This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten with additional code modification.
 
 ## License
 
