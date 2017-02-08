@@ -53,15 +53,9 @@ $ go get -u github.com/d2r2/go-hd44780
 
 ## Troubleshoting
 
-> NOTE 1: Library is not goroutine-safe, so use synchronization approach when multi-gorutine output expected to display in application.
-
-> NOTE 2: If you experience issue with lcd-device stability play with strobe delays in routine `writeDataWithStrobe(data byte)`. Default settings: 200 ms (microseconds) for setting stober, and 30 ms for exposing it to zero. Try to increase them a little bit, if you expirience any malfunction.
-
-## FAQ
-
 - How to obtain fresh Golang installation to RPi device (either any RPi clone):
   
-  Download fresh stable ARM tar.gz file (containing armv6l in file name): https://golang.org/dl/.
+  Download fresh stable ARM tar.gz release file (containing armv6l in file name): https://golang.org/dl/.
   Read instruction how to unpack content to /usr/local/ folder and update/set up such variables from user environment as PATH, GOPATH and so on.
 
 - How to enable I2C bus on RPi device:
@@ -71,6 +65,10 @@ $ go get -u github.com/d2r2/go-hd44780
 - How to find display I2C bus and address:
 
   Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run "apt-get install i2c-tools" on debian-kind system.
+ 
+> NOTE 1: Library is not goroutine-safe, so use synchronization approach when multi-gorutine output expected to display in application.
+
+> NOTE 2: If you experience issue with lcd-device stability play with strobe delays in routine `writeDataWithStrobe(data byte)`. Default settings: 200 ms (microseconds) for setting stober, and 30 ms for exposing it to zero. Try to increase them a little bit, if you expirience any malfunction.
 
 ## Credits
 
