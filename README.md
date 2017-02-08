@@ -51,7 +51,7 @@ GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780)
 $ go get -u github.com/d2r2/go-hd44780
 ```
 
-## Additional notes
+## Troubleshoting
 
 > NOTE 1: Library is not goroutine-safe, so use synchronization approach when multi-gorutine output expected to display in application.
 
