@@ -60,11 +60,11 @@ $ go get -u github.com/d2r2/go-hd44780
 
 - How to enable I2C bus on RPi device:
   
-  Your /dev/ folder should contains files like /dev/i2c-1 to have i2c support activated in the kernel. Otherwise you should find proper module to active it via modprobe utility, either config it permanently via /etc/modules config file.
+  Your /dev/ folder should contains files like /dev/i2c-1 to have i2c support activated in the kernel. Otherwise you should find proper module to active it via `modprobe` utility, either config it permanently via /etc/modules config file.
 
 - How to find display I2C bus and address:
 
-  Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run "apt-get install i2c-tools" on debian-kind system.
+  Use i2cdetect utility in format "i2cdetect -y X", where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run `apt-get install i2c-tools` on debian-kind system.
  
 > NOTE 1: Library is not goroutine-safe, so use synchronization approach when multi-gorutine output expected to display in application.
 
