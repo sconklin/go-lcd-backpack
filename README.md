@@ -1,4 +1,13 @@
-## Liquid-crystal display equiped with HD44780 integrated circuit
+Liquid-crystal display equiped with HD44780 integrated circuit
+==============================================================
+
+[![Build Status](https://travis-ci.org/d2r2/go-dht.svg?branch=master)](https://travis-ci.org/d2r2/go-dht)
+[![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-dht)](https://goreportcard.com/report/github.com/d2r2/go-dht)
+[![GoDoc](https://godoc.org/github.com/d2r2/go-dht?status.svg)](https://godoc.org/github.com/d2r2/go-dht)
+[![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+<!--
+[![Coverage Status](https://coveralls.io/repos/d2r2/go-dht/badge.svg?branch=master)](https://coveralls.io/r/d2r2/go-dht?branch=master)
+-->
 
 This library written in [Go programming language](https://golang.org/) to control parameters of and output alpha-numeric characters to liquid-crystal display equiped with HD44780 integrated circuit ([pdf reference](https://raw.github.com/d2r2/go-hd44780/master/docs/HD44780.pdf)). This code intended to run from Raspberry PI to get control above liquid-crystal display via i2c bus controller (soldered to lcd-display on the back side).
 
@@ -6,11 +15,13 @@ There is some variety in display size, so library was tested with two kinds (wid
 
 ![image](https://raw.github.com/d2r2/go-hd44780/master/docs/16x2_20x4_2.jpg)
 
-## Compatibility
+Compatibility
+-------------
 
 Tested on Raspberry PI 1 (model B) and Banana PI (model M1).
 
-## Golang usage
+Golang usage
+------------
 
 ```go
 func main() {
@@ -41,17 +52,20 @@ func main() {
 }
 ```
 
-## Getting help
+Getting help
+------------
 
 GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780)
 
-## Installation
+Installation
+------------
 
 ```bash
 $ go get -u github.com/d2r2/go-hd44780
 ```
 
-## Troubleshoting
+Troubleshoting
+--------------
 
 - How to obtain fresh Golang installation to RPi device (either any RPi clone):
   
@@ -70,10 +84,12 @@ $ go get -u github.com/d2r2/go-hd44780
 
 > NOTE 2: If you experience issue with lcd-device stability play with strobe delays in routine `writeDataWithStrobe(data byte)`. Default settings: 200 ms (microseconds) for setting stober, and 30 ms for exposing it to zero. Try to increase them a little bit, if you expirience any malfunction.
 
-## Credits
+Credits
+-------
 
 This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten with additional code modification.
 
-## License
+License
+-------
 
 Go-hd44780 is licensed inder MIT License.
