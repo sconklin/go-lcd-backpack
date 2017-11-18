@@ -1,10 +1,13 @@
 package main
 
-import device "github.com/d2r2/go-hd44780"
+import (
+	"fmt"
+	"log"
+	"time"
 
-import "log"
-import "fmt"
-import "time"
+	device "github.com/d2r2/go-hd44780"
+	i2c "github.com/d2r2/go-i2c"
+)
 
 func check(err error) {
 	if err != nil {
@@ -13,7 +16,7 @@ func check(err error) {
 }
 
 func main() {
-	i2c, err := device.NewI2C(0x27, 2)
+	i2c, err := i2c.NewI2C(0x27, 2)
 	check(err)
 	defer i2c.Close()
 	lcd, err := device.NewLcd(i2c, device.LCD_16x2)
