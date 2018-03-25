@@ -102,7 +102,7 @@ type rawData struct {
 
 func (this *Lcd) writeRawDataSeq(seq []rawData) error {
 	for _, item := range seq {
-		_, err := this.i2c.Write([]byte{item.Data})
+		_, err := this.i2c.WriteBytes([]byte{item.Data})
 		if err != nil {
 			return err
 		}
