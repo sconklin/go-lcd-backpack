@@ -67,19 +67,33 @@ $ go get -u github.com/d2r2/go-hd44780
 Troubleshoting
 --------------
 
-- How to obtain fresh Golang installation to RPi device (either any RPi clone):
-  
-  Download fresh stable ARM tar.gz release file (containing armv6l in file name): https://golang.org/dl/.
-  Read instruction how to unpack content to /usr/local/ folder and update/set up such variables from user environment as PATH, GOPATH and so on.
+- *How to obtain fresh Golang installation to RPi device (either any RPi clone):*
+If your RaspberryPI golang installed by default from repository is outdated, you may consider
+to install actual golang mannualy from official Golang [site](https://golang.org/dl/). Download
+tar.gz file containing armv6l in the name. Follow installation instructions.
 
-- How to enable I2C bus on RPi device:
-  
-  Your /dev/ folder should contains files like /dev/i2c-1 to have i2c support activated in the kernel. Otherwise you should find proper module to active it via `modprobe` utility, either config it permanently via /etc/modules config file.
+- *How to enable I2C bus on RPi device:*
+If you employ RaspberryPI, use raspi-config utility to activate i2c-bus on the OS level.
+Go to "Interfaceing Options" menu, to active I2C bus.
+Probably you will need to reboot to load i2c kernel module.
+Finally you should have device like /dev/i2c-1 present in the system.
 
-- How to find I2C bus allocation and device address:
+- *How to find I2C bus allocation and device address:*
+Use i2cdetect utility in format "i2cdetect -y X", where X may vary from 0 to 5 or more,
+to discover address occupied by device. To install utility you should run
+`apt install i2c-tools` on debian-kind system. `i2detect -y 1` sample output:
+	```
+	     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+	00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+	10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+	70: -- -- -- -- -- -- 76 --    
+	```
 
-  Use `i2cdetect` utility in format `i2cdetect -y X`, where X vary from 0 to 5 or more, to discover address occupied by device. To install utility you should run `apt-get install i2c-tools` on debian-kind system.
- 
 > NOTE 1: Library is not goroutine-safe, so use synchronization approach when multi-gorutine output expected to display in application.
 
 > NOTE 2: If you experience issue with lcd-device stability play with strobe delays in routine `writeDataWithStrobe(data byte)`. Default settings: 200 ms (microseconds) for setting stober, and 30 ms for exposing it to zero. Try to increase them a little bit, if you expirience any malfunction.
@@ -88,6 +102,11 @@ Credits
 -------
 
 This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten with additional code modification.
+
+Contact
+-------
+
+Please use [Github issue tracker](https://github.com/d2r2/go-hd44780/issues) for filing bugs or feature requests.
 
 License
 -------
