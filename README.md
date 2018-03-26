@@ -25,7 +25,7 @@ Golang usage
 
 ```go
 func main() {
-  // Create new connection to I2C bus on 2 line with address 0x27.
+  // Create new connection to i2c-bus on 2 line with address 0x27.
   // Use i2cdetect utility to find device address over the i2c-bus
   i2c, err := i2c.NewI2C(0x27, 2)
   if err != nil { log.Fatal(err) }
