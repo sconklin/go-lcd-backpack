@@ -12,6 +12,25 @@ import (
 )
 
 const (
+	// MCP2300 Register Addresses
+	REG_IODIR   = 0
+	REG_IPOL    = 1
+	REG_GPINTEN = 2
+	REG_DEFVAL  = 3
+	REG_INTCON  = 4
+	REG_IOCON   = 5
+	REG_GPPU    = 6
+	REG_INTF    = 7
+	REG_INTCAP  = 8
+	REG_GPIO    = 9
+	REG_OLAT    = 10
+)
+const (
+	// MCP2300 register bit definitions
+	REGBIT_SEQOP = 0
+)
+
+const (
 	// HD44780 Commands
 	CMD_Clear_Display        = 0x01
 	CMD_Return_Home          = 0x02
@@ -71,7 +90,10 @@ type Lcd struct {
 	lcdType   LcdType
 }
 
-// XYZZY
+func InitMCP2300(i2c *i2c.I2C) err {
+
+}
+
 func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	initByteSeq := []byte{
@@ -127,11 +149,11 @@ func (this *Lcd) writeDataWithStrobe(data byte) error {
 }
 
 func (this *Lcd) writeByte(data byte, controlPins byte) error {
-	err := this.writeDataWithStrobe(data&0xF0 | controlPins)
+	err := this.writeDataWithStrobe((data>>1)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
-	err = this.writeDataWithStrobe((data<<4)&0xF0 | controlPins)
+	err = this.writeDataWithStrobe((data<<3)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
