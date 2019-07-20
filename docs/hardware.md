@@ -2,7 +2,7 @@
 
 Library was originally written for PCA8574
 
-Adafruit uses MCP2300
+Adafruit uses MCP2300 (with RW tied to ground)
 
 | Data Line | MCP2300 | PCA8574 |
 | --------- | ------- | ------- |
@@ -10,6 +10,7 @@ D0          | None    | RS       |
 D1          | RS      | RW       |
 D2          | E       | E        |
 D3          | DB4     | BT (LED) |
+| --------- | ------- | ------- |
 D4          | DB5     | D4       |
 D5          | DB6     | D5       |
 D6          | DB7     | D6       |

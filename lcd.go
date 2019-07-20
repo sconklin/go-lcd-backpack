@@ -1,15 +1,18 @@
-package hd44780
+package lcdbackpack
+
+// Originally for a different LCD I2C interface, but modified for the Adafruit LCD backpack
+// The LCD itself uses the HD44780 controller
 
 import (
 	"fmt"
 	"strings"
 	"time"
 
-	"github.com/d2r2/go-i2c"
+	"github.com/sconklin/go-i2c"
 )
 
 const (
-	// Commands
+	// HD44780 Commands
 	CMD_Clear_Display        = 0x01
 	CMD_Return_Home          = 0x02
 	CMD_Entry_Mode           = 0x04
@@ -37,10 +40,9 @@ const (
 )
 
 const (
-	PIN_BACKLIGHT byte = 0x08
+	PIN_BACKLIGHT byte = 0x80
 	PIN_EN        byte = 0x04 // Enable bit
-	PIN_RW        byte = 0x02 // Read/Write bit
-	PIN_RS        byte = 0x01 // Register select bit
+	PIN_RS        byte = 0x02 // Register select bit
 )
 
 type LcdType int
@@ -69,10 +71,11 @@ type Lcd struct {
 	lcdType   LcdType
 }
 
+// XYZZY
 func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	initByteSeq := []byte{
-		0x03, 0x03, 0x03, // base initialization
+		0x03, 0x03, 0x03, // base initialization (RS+RW)
 		0x02, // setting up 4-bit transfer mode
 		CMD_Function_Set | OPT_2_Lines | OPT_5x8_Dots | OPT_4Bit_Mode,
 		CMD_Display_Control | OPT_Enable_Display,
