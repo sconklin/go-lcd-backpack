@@ -1,24 +1,21 @@
-Liquid-crystal display equiped with HD44780 integrated circuit
+Liquid-crystal display connected using the Adafruit LCD Backpack
 ==============================================================
 
-[![Build Status](https://travis-ci.org/d2r2/go-hd44780.svg?branch=master)](https://travis-ci.org/d2r2/go-hd44780)
-[![Go Report Card](https://goreportcard.com/badge/github.com/d2r2/go-hd44780)](https://goreportcard.com/report/github.com/d2r2/go-hd44780)
-[![GoDoc](https://godoc.org/github.com/d2r2/go-hd44780?status.svg)](https://godoc.org/github.com/d2r2/go-hd44780)
+[![Build Status](https://travis-ci.org/sconklin/go-lcd-backpack.svg?branch=master)](https://travis-ci.org/sconklin/go-lcd-backpack)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sconklin/go-lcd-backpack)](https://goreportcard.com/report/github.com/sconklin/go-lcd-backpack)
+[![GoDoc](https://godoc.org/github.com/sconklin/go-lcd-backpack?status.svg)](https://godoc.org/github.com/sconklin/go-lcd-backpack)
 [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-<!--
-[![Coverage Status](https://coveralls.io/repos/d2r2/go-dht/badge.svg?branch=master)](https://coveralls.io/r/d2r2/go-dht?branch=master)
--->
 
-This library written in [Go programming language](https://golang.org/) to control parameters of and output alpha-numeric characters to liquid-crystal display equiped with HD44780 integrated circuit ([pdf reference](https://raw.github.com/d2r2/go-hd44780/master/docs/HD44780.pdf)). This code intended to run from Raspberry PI to get control above liquid-crystal display via i2c bus controller (soldered to lcd-display on the back side).
+This library written in [Go programming language](https://golang.org/) to control parameters of and output alpha-numeric characters to liquid-crystal display equiped with HD44780 integrated circuit ([pdf reference](https://raw.github.com/sconklin/go-lcd-backpack/master/docs/HD44780.pdf)). This code intended to run from Raspberry PI to get control above liquid-crystal display via the Adafruit lcd backpack.
 
 There is some variety in display size, so library was tested with two kinds (width x height): 16x2 and 20x4 (pictures 1 and 2 correspond to 16x2 display, picture 3 - 20x4 display):
 
-![image](https://raw.github.com/d2r2/go-hd44780/master/docs/16x2_20x4_2.jpg)
+![image](https://raw.github.com/sconklin/go-lcd-backpack/master/docs/adafruit-backpack.jpg)
 
 Compatibility
 -------------
 
-Tested on Raspberry PI 1 (model B) and Banana PI (model M1).
+Tested on Raspberry PI Zero W
 
 Golang usage
 ------------
@@ -27,7 +24,7 @@ Golang usage
 func main() {
   // Create new connection to i2c-bus on 2 line with address 0x27.
   // Use i2cdetect utility to find device address over the i2c-bus
-  i2c, err := i2c.NewI2C(0x27, 2)
+  i2c, err := i2c.NewI2C(0x20, 1)
   if err != nil { log.Fatal(err) }
   // Free I2C connection on exit
   defer i2c.Close()
@@ -56,13 +53,13 @@ func main() {
 Getting help
 ------------
 
-GoDoc [documentation](http://godoc.org/github.com/d2r2/go-hd44780)
+GoDoc [documentation](http://godoc.org/github.com/sconklin/go-lcd-backpack)
 
 Installation
 ------------
 
 ```bash
-$ go get -u github.com/d2r2/go-hd44780
+$ go get -u github.com/d2r2/go-lcd-backpack
 ```
 
 Troubleshoting
@@ -102,14 +99,14 @@ to discover address occupied by peripheral device. To install utility you should
 Credits
 -------
 
-This is a fork from completely similar functionality (https://github.com/davecheney/i2c), but due to the some uncertain issues does not work for me. So, it was rewritten with additional code modification.
+This is a fork from (https://github.com/d2r2/go-hd44780), which interfaces with a different brand of I2C to LCD interface.
 
 Contact
 -------
 
-Please use [Github issue tracker](https://github.com/d2r2/go-hd44780/issues) for filing bugs or feature requests.
+Please use [Github issue tracker](https://github.com/d2r2/go-lcd-backpack/issues) for filing bugs or feature requests.
 
 License
 -------
 
-Go-hd44780 is licensed inder MIT License.
+go-lcd-backpack is licensed inder MIT License.

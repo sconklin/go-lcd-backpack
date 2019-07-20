@@ -1,15 +1,18 @@
-package hd44780
+package lcdbackpack
+
+// Originally for a different LCD I2C interface, but modified for the Adafruit LCD backpack
+// The LCD itself uses the HD44780 controller
 
 import (
 	"fmt"
 	"strings"
 	"time"
 
-	"github.com/d2r2/go-i2c"
+	"github.com/sconklin/go-i2c"
 )
 
 const (
-	// Commands
+	// HD44780 Commands
 	CMD_Clear_Display        = 0x01
 	CMD_Return_Home          = 0x02
 	CMD_Entry_Mode           = 0x04
@@ -37,10 +40,9 @@ const (
 )
 
 const (
-	PIN_BACKLIGHT byte = 0x08
+	PIN_BACKLIGHT byte = 0x80
 	PIN_EN        byte = 0x04 // Enable bit
-	PIN_RW        byte = 0x02 // Read/Write bit
-	PIN_RS        byte = 0x01 // Register select bit
+	PIN_RS        byte = 0x02 // Register select bit
 )
 
 type LcdType int
@@ -71,8 +73,15 @@ type Lcd struct {
 
 func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
+	err := MCP23008Init(i2c)
+	if err != nil {
+		log.Debug("Error from MCP23008Init\n")
+		return nil, err
+	}
+	log.Debug("MCP23008 Init Complete\n")
 	initByteSeq := []byte{
-		0x03, 0x03, 0x03, // base initialization
+		// Init the LCD display
+		0x03, 0x03, 0x03, // base initialization (RS+RW)
 		0x02, // setting up 4-bit transfer mode
 		CMD_Function_Set | OPT_2_Lines | OPT_5x8_Dots | OPT_4Bit_Mode,
 		CMD_Display_Control | OPT_Enable_Display,
@@ -84,7 +93,7 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 			return nil, err
 		}
 	}
-	err := this.Clear()
+	err = this.Clear()
 	if err != nil {
 		return nil, err
 	}
@@ -102,11 +111,12 @@ type rawData struct {
 
 func (this *Lcd) writeRawDataSeq(seq []rawData) error {
 	for _, item := range seq {
-		_, err := this.i2c.WriteBytes([]byte{item.Data})
-		if err != nil {
-			return err
-		}
-		time.Sleep(item.Delay)
+	    err := MCP23008WriteGPIO(this.i2c, item.Data)
+	    //	_, err := this.i2c.WriteBytes([]byte{item.Data})
+	    if err != nil {
+		return err
+	    }
+	    time.Sleep(item.Delay)
 	}
 	return nil
 }
@@ -115,6 +125,7 @@ func (this *Lcd) writeDataWithStrobe(data byte) error {
 	if this.backlight {
 		data |= PIN_BACKLIGHT
 	}
+	log.Debugf("Writing byte with strobe: [%x]", data)
 	seq := []rawData{
 		{data, 0}, // send data
 		{data | PIN_EN, 200 * time.Microsecond}, // set strobe
@@ -124,11 +135,12 @@ func (this *Lcd) writeDataWithStrobe(data byte) error {
 }
 
 func (this *Lcd) writeByte(data byte, controlPins byte) error {
-	err := this.writeDataWithStrobe(data&0xF0 | controlPins)
+	log.Debugf("Writing byte: [%x]", data)
+	err := this.writeDataWithStrobe((data>>1)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
-	err = this.writeDataWithStrobe((data<<4)&0xF0 | controlPins)
+	err = this.writeDataWithStrobe((data<<3)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
