@@ -27,3 +27,5 @@ Base Address + 1: Read
 ## MCP2300
 MCP2300 has a more complex interface with 11 registers
 
+Base Address = 0x20 (configurable with jumpers)
+
