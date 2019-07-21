@@ -1,4 +1,4 @@
-package hd44780
+package lcdbackpack
 
 import (
 	"os"

@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
+	i2c "github.com/sconklin/go-i2c"
+	device "github.com/sconklin/go-lcd-backpack"
 	"log"
 	"time"
-
-	device "github.com/d2r2/go-hd44780"
-	i2c "github.com/d2r2/go-i2c"
 )
 
 func check(err error) {

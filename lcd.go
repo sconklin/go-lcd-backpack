@@ -12,25 +12,6 @@ import (
 )
 
 const (
-	// MCP2300 Register Addresses
-	REG_IODIR   = 0
-	REG_IPOL    = 1
-	REG_GPINTEN = 2
-	REG_DEFVAL  = 3
-	REG_INTCON  = 4
-	REG_IOCON   = 5
-	REG_GPPU    = 6
-	REG_INTF    = 7
-	REG_INTCAP  = 8
-	REG_GPIO    = 9
-	REG_OLAT    = 10
-)
-const (
-	// MCP2300 register bit definitions
-	REGBIT_SEQOP = 0
-)
-
-const (
 	// HD44780 Commands
 	CMD_Clear_Display        = 0x01
 	CMD_Return_Home          = 0x02
@@ -90,13 +71,14 @@ type Lcd struct {
 	lcdType   LcdType
 }
 
-func InitMCP2300(i2c *i2c.I2C) err {
-
-}
-
 func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
+	err := MCP23008Init(i2c)
+	if err != nil {
+		return nil, err
+	}
 	initByteSeq := []byte{
+		// Init the LCD display
 		0x03, 0x03, 0x03, // base initialization (RS+RW)
 		0x02, // setting up 4-bit transfer mode
 		CMD_Function_Set | OPT_2_Lines | OPT_5x8_Dots | OPT_4Bit_Mode,
@@ -109,7 +91,7 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 			return nil, err
 		}
 	}
-	err := this.Clear()
+	err = this.Clear()
 	if err != nil {
 		return nil, err
 	}

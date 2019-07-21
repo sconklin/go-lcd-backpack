@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	device "github.com/d2r2/go-hd44780"
-	"github.com/d2r2/go-i2c"
+	"github.com/sconklin/go-i2c"
+	device "github.com/sconklin/go-lcd-backpack"
 )
 
 func checkError(err error) {
