@@ -2,19 +2,19 @@
 
 Library was originally written for PCA8574
 
-Adafruit uses MCP2300 (with RW tied to ground)
+Adafruit uses MCP23008 (with RW tied to ground)
 
-| Data Line | MCP2300 | PCA8574 |
-| --------- | ------- | ------- |
-D0          | None    | RS       |
-D1          | RS      | RW       |
-D2          | E       | E        |
-D3          | DB4     | BT (LED) |
-| --------- | ------- | ------- |
-D4          | DB5     | D4       |
-D5          | DB6     | D5       |
-D6          | DB7     | D6       |
-D7          | LITE    | D7       |
+| Data Line | MCP23008  | PCA8574  | Mask |
+| --------- | --------- | -------- | ---- |
+D0          | None      | RS       | 0x01 |
+D1          | RS        | RW       | 0x02 |
+D2          | E         | E        | 0x04 |
+D3          | DB4       | BT (LED) | 0x08 |
+| --------- | --------- | -------- | ---- |
+D4          | DB5       | D4       | 0x10 |
+D5          | DB6       | D5       | 0x20 |
+D6          | DB7       | D6       | 0x40 |
+D7          | LITE      | D7       | 0x80 |
 
 ## PCA8574
 PCA8574 has a very simple interface with two registers
