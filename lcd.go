@@ -111,11 +111,12 @@ type rawData struct {
 
 func (this *Lcd) writeRawDataSeq(seq []rawData) error {
 	for _, item := range seq {
-		_, err := this.i2c.WriteBytes([]byte{item.Data})
-		if err != nil {
-			return err
-		}
-		time.Sleep(item.Delay)
+	    err := MCP23008WriteGPIO(this.i2c, item.Data)
+	    //	_, err := this.i2c.WriteBytes([]byte{item.Data})
+	    if err != nil {
+		return err
+	    }
+	    time.Sleep(item.Delay)
 	}
 	return nil
 }
