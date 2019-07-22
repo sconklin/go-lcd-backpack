@@ -75,6 +75,7 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	err := MCP23008Init(i2c)
 	if err != nil {
+		log.Debug("Error from MCP23008Init\n")
 		return nil, err
 	}
 	log.Debug("MCP23008 Init Complete\n")
@@ -123,6 +124,7 @@ func (this *Lcd) writeDataWithStrobe(data byte) error {
 	if this.backlight {
 		data |= PIN_BACKLIGHT
 	}
+	log.Debugf("Writing byte with strobe: [%x]", data)
 	seq := []rawData{
 		{data, 0}, // send data
 		{data | PIN_EN, 200 * time.Microsecond}, // set strobe

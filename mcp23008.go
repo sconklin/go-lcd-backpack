@@ -40,11 +40,7 @@ func MCP23008Init(i2c *i2c.I2C) error {
 	}
 	log.Debugf("Init Writing Bytes\n")
 	_, err := i2c.WriteBytes(initByteSeq)
-	if err != nil {
-		return err
-	}
-	return errors.New("Testing")
-	//return nil
+	return err
 }
 
 // MCP23008PinMode accepts i2c addr, pin and direction and sets it
