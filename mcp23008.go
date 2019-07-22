@@ -38,12 +38,14 @@ func MCP23008Init(i2c *i2c.I2C) error {
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
 	for _, b := range initByteSeq {
+		log.Debugf("Init Writing Byte: %x\n", b)
 		err := MCP23008WriteGPIO(i2c, b)
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+	return errors.New("Testing")
+	//return nil
 }
 
 // MCP23008PinMode accepts i2c addr, pin and direction and sets it

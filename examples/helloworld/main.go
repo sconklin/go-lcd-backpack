@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
 	i2c "github.com/sconklin/go-i2c"
 	device "github.com/sconklin/go-lcd-backpack"
 	"log"
-	"time"
 )
 
 func check(err error) {
@@ -18,8 +16,10 @@ func main() {
 	i2c, err := i2c.NewI2C(0x20, 1)
 	check(err)
 	defer i2c.Close()
-	lcd, err := device.NewLcd(i2c, device.LCD_16x2)
-	check(err)
+	//lcd, err := device.NewLcd(i2c, device.LCD_16x2)
+	_, err = device.NewLcd(i2c, device.LCD_16x2)
+	return
+/*	check(err)
 	lcd.BacklightOn()
 	lcd.Clear()
 	for {
@@ -33,4 +33,5 @@ func main() {
 		//		fmt.Fprint(lcd, "i2c, VGA, and Go")
 		time.Sleep(333 * time.Millisecond)
 	}
+*/
 }

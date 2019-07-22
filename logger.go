@@ -7,9 +7,9 @@ import (
 )
 
 // Comment INFO and uncomment DEBUG if you want detail debug output in library.
-var log *logging.Logger = buildLogger("hd44780",
-	//	logging.DEBUG,
-	logging.INFO,
+var log *logging.Logger = buildLogger("lcd-backpack",
+	logging.DEBUG,
+	// logging.INFO,
 )
 
 var terminalBackend logging.LeveledBackend = nil
