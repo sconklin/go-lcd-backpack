@@ -38,12 +38,10 @@ func MCP23008Init(i2c *i2c.I2C) error {
 		0xFF, // all inputs
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
-	for _, b := range initByteSeq {
-		log.Debugf("Init Writing Byte: %x\n", b)
-		err := MCP23008WriteGPIO(i2c, b)
-		if err != nil {
-			return err
-		}
+	log.Debugf("Init Writing Bytes\n")
+	_, err := i2c.WriteBytes(initByteSeq)
+	if err != nil {
+		return err
 	}
 	return errors.New("Testing")
 	//return nil
