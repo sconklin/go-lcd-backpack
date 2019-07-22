@@ -77,6 +77,7 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Debug("MCP23008 Init Complete\n")
 	initByteSeq := []byte{
 		// Init the LCD display
 		0x03, 0x03, 0x03, // base initialization (RS+RW)
@@ -131,6 +132,7 @@ func (this *Lcd) writeDataWithStrobe(data byte) error {
 }
 
 func (this *Lcd) writeByte(data byte, controlPins byte) error {
+	log.Debugf("Writing byte: [%x]", data)
 	err := this.writeDataWithStrobe((data>>1)&0x78 | controlPins)
 	if err != nil {
 		return err
