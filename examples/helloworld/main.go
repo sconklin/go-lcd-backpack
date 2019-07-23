@@ -20,17 +20,17 @@ func main() {
 	check(err)
 	lcd.BacklightOn()
 	lcd.Clear()
-/*
-for {
-		lcd.Home()
-		t := time.Now()
-		lcd.SetPosition(0, 0)
-		fmt.Fprint(lcd, t.Format("Monday Jan 2"))
-		lcd.SetPosition(1, 0)
-		fmt.Fprint(lcd, t.Format("15:04:05 2006"))
-		//		lcd.SetPosition(4, 0)
-		//		fmt.Fprint(lcd, "i2c, VGA, and Go")
-		time.Sleep(333 * time.Millisecond)
-	}
-*/
+	/*
+	   for {
+	   		lcd.Home()
+	   		t := time.Now()
+	   		lcd.SetPosition(0, 0)
+	   		fmt.Fprint(lcd, t.Format("Monday Jan 2"))
+	   		lcd.SetPosition(1, 0)
+	   		fmt.Fprint(lcd, t.Format("15:04:05 2006"))
+	   		//		lcd.SetPosition(4, 0)
+	   		//		fmt.Fprint(lcd, "i2c, VGA, and Go")
+	   		time.Sleep(333 * time.Millisecond)
+	   	}
+	*/
 }

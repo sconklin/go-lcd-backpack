@@ -21,7 +21,11 @@ const (
 )
 const (
 	// MCP2300 register bit definitions
-	MCP23008_REGBIT_SEQOP = 0
+	MCP23008_REGBIT_SEQOP  = 0x20
+	MCP23008_REGBIT_DISSLW = 0x10
+	MCP23008_REGBIT_HAEN   = 0x08
+	MCP23008_REGBIT_ODR    = 0x04
+	MCP23008_REGBIT_INTPOL = 0x02
 )
 const (
 	MCP23008_CONST_INPUT  = 0
@@ -30,16 +34,38 @@ const (
 	MCP23008_CONST_HIGH   = 1
 )
 
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // MCP23008Init Sets up the MCP23008 I/O expander
 func MCP23008Init(i2c *i2c.I2C) error {
 	log.Debug("MCP23008Init . . .\n")
-	initByteSeq := []byte{
-		MCP23008_IODIR,
-		0xFF, // all inputs
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	}
-	log.Debugf("Init Writing Bytes\n")
-	_, err := i2c.WriteBytes(initByteSeq)
+	err := i2c.WriteRegU8(MCP23008_IOCON, MCP23008_REGBIT_DISSLW|MCP23008_REGBIT_SEQOP)
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_IODIR, 0x00) // All outputs
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_IPOL, 0x00) // do not invert input state
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_GPINTEN, 0x00) // disable interrupt on change
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_DEFVAL, 0x00) // not used but init
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_INTCON, 0x00) // Not used, but init
+	check(err)
+	err = i2c.WriteRegU8(MCP23008_GPPU, 0x00) // No pullups on inputs
+
+	/*
+		initByteSeq := []byte{
+			MCP23008_IODIR,
+			0xFF, // all inputs
+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		}
+		log.Debugf("Init Writing Bytes\n")
+		_, err := i2c.WriteBytes(initByteSeq)
+	*/
 	return err
 }
 

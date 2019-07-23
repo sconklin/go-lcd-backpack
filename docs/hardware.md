@@ -29,3 +29,21 @@ MCP2300 has a more complex interface with 11 registers
 
 Base Address = 0x20 (configurable with jumpers)
 
+## LCD Display
+
+| Pin | Signal |
+| --- | ------ |
+|  1  | D7     |
+|  2  | D6     |
+|  3  | D5     |
+|  4  | D4     |
+|  5  |        |
+|  6  |        |
+|  7  |        |
+|  8  |        |
+|  9  | EN     |
+| 10  | RW     |
+| 11  | RS     |
+| 12  | CONTRAST |
+| 13  | GND    |
+| 14  | 5V     |
