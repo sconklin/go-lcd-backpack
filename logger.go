@@ -12,7 +12,7 @@ var log *logging.Logger = buildLogger("lcd-backpack",
 	logging.INFO,
 )
 
-var terminalBackend logging.LeveledBackend = nil
+var terminalBackend logging.LeveledBackend
 
 func buildLogger(module string, level logging.Level) *logging.Logger {
 	// Set the backends to be used.

@@ -11,58 +11,58 @@ import (
 	"github.com/sconklin/go-i2c"
 )
 
+// HD44780 Commands
 const (
-	// HD44780 Commands
-	CMD_Clear_Display        = 0x01
-	CMD_Return_Home          = 0x02
-	CMD_Entry_Mode           = 0x04
-	CMD_Display_Control      = 0x08
-	CMD_Cursor_Display_Shift = 0x10
-	CMD_Function_Set         = 0x20
-	CMD_CGRAM_Set            = 0x40
-	CMD_DDRAM_Set            = 0x80
+	CMDClearDisplay        = 0x01
+	CMDReturnHome          = 0x02
+	CMDEntryMode           = 0x04
+	CMDDisplayControl      = 0x08
+	CMDCursorDisplay_Shift = 0x10
+	CMDFunctionSet         = 0x20
+	CMDCGRAMSet            = 0x40
+	CMDDDRAMSet            = 0x80
 
 	// Options
-	OPT_Increment = 0x02 // CMD_Entry_Mode
-	OPT_Decrement = 0x00
+	OPTIncrement = 0x02 // CMD_Entry_Mode
+	OPTDecrement = 0x00
 	// OPT_Display_Shift  = 0x01 // CMD_Entry_Mode
-	OPT_Enable_Display = 0x04 // CMD_Display_Control
-	OPT_Enable_Cursor  = 0x02 // CMD_Display_Control
-	OPT_Enable_Blink   = 0x01 // CMD_Display_Control
-	OPT_Display_Shift  = 0x08 // CMD_Cursor_Display_Shift
-	OPT_Shift_Right    = 0x04 // CMD_Cursor_Display_Shift 0 = Left
-	OPT_8Bit_Mode      = 0x10
-	OPT_4Bit_Mode      = 0x00
-	OPT_2_Lines        = 0x08 // CMD_Function_Set 0 = 1 line
-	OPT_1_Lines        = 0x00
-	OPT_5x10_Dots      = 0x04 // CMD_Function_Set 0 = 5x7 dots
-	OPT_5x8_Dots       = 0x00
+	OPTEnableDisplay = 0x04 // CMD_Display_Control
+	OPTEnableCursor  = 0x02 // CMD_Display_Control
+	OPTEnableBlink   = 0x01 // CMD_Display_Control
+	OPTDisplayShift  = 0x08 // CMD_Cursor_Display_Shift
+	OPTShiftRight    = 0x04 // CMD_Cursor_Display_Shift 0 = Left
+	OPT8BitMode      = 0x10
+	OPT4BitMode      = 0x00
+	OPT2Lines        = 0x08 // CMD_Function_Set 0 = 1 line
+	OPT1Lines        = 0x00
+	OPT5x10Dots      = 0x04 // CMD_Function_Set 0 = 5x7 dots
+	OPT5x8Dots       = 0x00
 )
 
 const (
-	PIN_BACKLIGHT byte = 0x80
-	PIN_EN        byte = 0x04 // Enable bit
-	PIN_RS        byte = 0x02 // Register select bit
+	PINBACKLIGHT byte = 0x80
+	PINEN        byte = 0x04 // Enable bit
+	PINRS        byte = 0x02 // Register select bit
 )
 
 type LcdType int
 
 const (
-	LCD_UNKNOWN LcdType = iota
-	LCD_16x2
-	LCD_20x4
+	LCDUNKNOWN LcdType = iota
+	LCD16x2
+	LCD20x4
 )
 
 type ShowOptions int
 
 const (
-	SHOW_NO_OPTIONS ShowOptions = 0
-	SHOW_LINE_1                 = 1 << iota
-	SHOW_LINE_2
-	SHOW_LINE_3
-	SHOW_LINE_4
-	SHOW_ELIPSE_IF_NOT_FIT
-	SHOW_BLANK_PADDING
+	SHOWNOOPTIONS ShowOptions = 0
+	SHOWLINE1                 = 1 << iota
+	SHOWLINE2
+	SHOWLINE3
+	SHOWLINE4
+	SHOWELIPSEIFNOTFIT
+	SHOWBLANKPADDING
 )
 
 type Lcd struct {
@@ -72,7 +72,7 @@ type Lcd struct {
 }
 
 func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
-	this := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
+	thislcd := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	err := MCP23008Init(i2c)
 	if err != nil {
 		log.Debug("Error from MCP23008Init\n")
@@ -83,25 +83,25 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 		// Init the LCD display
 		0x03, 0x03, 0x03, // base initialization (RS+RW)
 		0x02, // setting up 4-bit transfer mode
-		CMD_Function_Set | OPT_2_Lines | OPT_5x8_Dots | OPT_4Bit_Mode,
-		CMD_Display_Control | OPT_Enable_Display,
-		CMD_Entry_Mode | OPT_Increment,
+		CMDFunctionSet | OPT2Lines | OPT5x8Dots | OPT4BitMode,
+		CMDDisplayControl | OPTEnableDisplay,
+		CMDEntryMode | OPTIncrement,
 	}
 	for _, b := range initByteSeq {
-		err := this.writeByte(b, 0)
+		err := thislcd.writeByte(b, 0)
 		if err != nil {
 			return nil, err
 		}
 	}
-	err = this.Clear()
+	err = thislcd.Clear()
 	if err != nil {
 		return nil, err
 	}
-	err = this.Home()
+	err = thislcd.Home()
 	if err != nil {
 		return nil, err
 	}
-	return this, nil
+	return thislcd, nil
 }
 
 type rawData struct {
@@ -109,50 +109,50 @@ type rawData struct {
 	Delay time.Duration
 }
 
-func (this *Lcd) writeRawDataSeq(seq []rawData) error {
+func (thislcd *Lcd) writeRawDataSeq(seq []rawData) error {
 	for _, item := range seq {
-	    err := MCP23008WriteGPIO(this.i2c, item.Data)
-	    //	_, err := this.i2c.WriteBytes([]byte{item.Data})
-	    if err != nil {
-		return err
-	    }
-	    time.Sleep(item.Delay)
+		err := MCP23008WriteGPIO(thislcd.i2c, item.Data)
+		//	_, err := thislcd.i2c.WriteBytes([]byte{item.Data})
+		if err != nil {
+			return err
+		}
+		time.Sleep(item.Delay)
 	}
 	return nil
 }
 
-func (this *Lcd) writeDataWithStrobe(data byte) error {
-	if this.backlight {
-		data |= PIN_BACKLIGHT
+func (thislcd *Lcd) writeDataWithStrobe(data byte) error {
+	if thislcd.backlight {
+		data |= PINBACKLIGHT
 	}
 	log.Debugf("Writing byte with strobe: [%x]", data)
 	seq := []rawData{
 		{data, 0}, // send data
-		{data | PIN_EN, 200 * time.Microsecond}, // set strobe
-		{data, 30 * time.Microsecond},           // reset strobe
+		{data | PINEN, 200 * time.Microsecond}, // set strobe
+		{data, 30 * time.Microsecond},          // reset strobe
 	}
-	return this.writeRawDataSeq(seq)
+	return thislcd.writeRawDataSeq(seq)
 }
 
-func (this *Lcd) writeByte(data byte, controlPins byte) error {
+func (thislcd *Lcd) writeByte(data byte, controlPins byte) error {
 	log.Debugf("Writing byte: [%x]", data)
-	err := this.writeDataWithStrobe((data>>1)&0x78 | controlPins)
+	err := thislcd.writeDataWithStrobe((data>>1)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
-	err = this.writeDataWithStrobe((data<<3)&0x78 | controlPins)
+	err = thislcd.writeDataWithStrobe((data<<3)&0x78 | controlPins)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (this *Lcd) getLineRange(options ShowOptions) (startLine, endLine int) {
+func (thislcd *Lcd) getLineRange(options ShowOptions) (startLine, endLine int) {
 	var lines [4]bool
-	lines[0] = options&SHOW_LINE_1 != 0
-	lines[1] = options&SHOW_LINE_2 != 0
-	lines[2] = options&SHOW_LINE_3 != 0
-	lines[3] = options&SHOW_LINE_4 != 0
+	lines[0] = options&SHOWLINE1 != 0
+	lines[1] = options&SHOWLINE2 != 0
+	lines[2] = options&SHOWLINE3 != 0
+	lines[3] = options&SHOWLINE4 != 0
 	startLine = -1
 	for i := 0; i < len(lines); i++ {
 		if lines[i] {
@@ -170,10 +170,10 @@ func (this *Lcd) getLineRange(options ShowOptions) (startLine, endLine int) {
 	return startLine, endLine
 }
 
-func (this *Lcd) splitText(text string, options ShowOptions) []string {
+func (thislcd *Lcd) splitText(text string, options ShowOptions) []string {
 	var lines []string
-	startLine, endLine := this.getLineRange(options)
-	w, _ := this.getSize()
+	startLine, endLine := thislcd.getLineRange(options)
+	w, _ := thislcd.getSize()
 	if w != -1 && startLine != -1 && endLine != -1 {
 		for i := 0; i <= endLine-startLine; i++ {
 			if len(text) == 0 {
@@ -187,12 +187,12 @@ func (this *Lcd) splitText(text string, options ShowOptions) []string {
 			text = text[j:]
 		}
 		if len(text) > 0 {
-			if options&SHOW_ELIPSE_IF_NOT_FIT != 0 {
+			if options&SHOWELIPSEIFNOTFIT != 0 {
 				j := len(lines) - 1
 				lines[j] = lines[j][:len(lines[j])-1] + "~"
 			}
 		} else {
-			if options&SHOW_BLANK_PADDING != 0 {
+			if options&SHOWBLANKPADDING != 0 {
 				j := len(lines) - 1
 				lines[j] = lines[j] + strings.Repeat(" ", w-len(lines[j]))
 				for k := j + 1; k <= endLine-startLine; k++ {
@@ -207,21 +207,21 @@ func (this *Lcd) splitText(text string, options ShowOptions) []string {
 	return lines
 }
 
-func (this *Lcd) ShowMessage(text string, options ShowOptions) error {
-	lines := this.splitText(text, options)
+func (thislcd *Lcd) ShowMessage(text string, options ShowOptions) error {
+	lines := thislcd.splitText(text, options)
 	log.Debug("Output: %v\n", lines)
-	startLine, endLine := this.getLineRange(options)
+	startLine, endLine := thislcd.getLineRange(options)
 	i := 0
 	for {
 		if startLine != -1 && endLine != -1 {
-			err := this.SetPosition(i+startLine, 0)
+			err := thislcd.SetPosition(i+startLine, 0)
 			if err != nil {
 				return err
 			}
 		}
 		line := lines[i]
 		for _, c := range line {
-			err := this.writeByte(byte(c), PIN_RS)
+			err := thislcd.writeByte(byte(c), PINRS)
 			if err != nil {
 				return err
 			}
@@ -234,14 +234,14 @@ func (this *Lcd) ShowMessage(text string, options ShowOptions) error {
 	return nil
 }
 
-func (this *Lcd) TestWriteCGRam() error {
-	err := this.writeByte(CMD_CGRAM_Set, 0)
+func (thislcd *Lcd) TestWriteCGRam() error {
+	err := thislcd.writeByte(CMDCGRAMSet, 0)
 	if err != nil {
 		return err
 	}
 	var a byte = 0x55
 	for i := 0; i < 80; i++ {
-		err := this.writeByte(a, PIN_RS)
+		err := thislcd.writeByte(a, PINRS)
 		if err != nil {
 			return err
 		}
@@ -250,48 +250,48 @@ func (this *Lcd) TestWriteCGRam() error {
 	return nil
 }
 
-func (this *Lcd) BacklightOn() error {
-	this.backlight = true
-	err := this.writeByte(0x00, 0)
+func (thislcd *Lcd) BacklightOn() error {
+	thislcd.backlight = true
+	err := thislcd.writeByte(0x00, 0)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (this *Lcd) BacklightOff() error {
-	this.backlight = false
-	err := this.writeByte(0x00, 0)
+func (thislcd *Lcd) BacklightOff() error {
+	thislcd.backlight = false
+	err := thislcd.writeByte(0x00, 0)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (this *Lcd) Clear() error {
-	err := this.writeByte(CMD_Clear_Display, 0)
+func (thislcd *Lcd) Clear() error {
+	err := thislcd.writeByte(CMDClearDisplay, 0)
 	return err
 }
 
-func (this *Lcd) Home() error {
-	err := this.writeByte(CMD_Return_Home, 0)
+func (thislcd *Lcd) Home() error {
+	err := thislcd.writeByte(CMDReturnHome, 0)
 	time.Sleep(3 * time.Millisecond)
 	return err
 }
 
-func (this *Lcd) getSize() (width, height int) {
-	switch this.lcdType {
-	case LCD_16x2:
+func (thislcd *Lcd) getSize() (width, height int) {
+	switch thislcd.lcdType {
+	case LCD16x2:
 		return 16, 2
-	case LCD_20x4:
+	case LCD20x4:
 		return 20, 4
 	default:
 		return -1, -1
 	}
 }
 
-func (this *Lcd) SetPosition(line, pos int) error {
-	w, h := this.getSize()
+func (thislcd *Lcd) SetPosition(line, pos int) error {
+	w, h := thislcd.getSize()
 	if w != -1 && (pos < 0 || pos > w-1) {
 		return fmt.Errorf("Cursor position %d "+
 			"must be within the range [0..%d]", pos, w-1)
@@ -301,14 +301,14 @@ func (this *Lcd) SetPosition(line, pos int) error {
 			"must be within the range [0..%d]", line, h-1)
 	}
 	lineOffset := []byte{0x00, 0x40, 0x14, 0x54}
-	var b byte = CMD_DDRAM_Set + lineOffset[line] + byte(pos)
-	err := this.writeByte(b, 0)
+	var b byte = CMDDDRAMSet + lineOffset[line] + byte(pos)
+	err := thislcd.writeByte(b, 0)
 	return err
 }
 
-func (this *Lcd) Write(buf []byte) (int, error) {
+func (thislcd *Lcd) Write(buf []byte) (int, error) {
 	for i, c := range buf {
-		err := this.writeByte(c, PIN_RS)
+		err := thislcd.writeByte(c, PINRS)
 		if err != nil {
 			return i, err
 		}
@@ -316,7 +316,7 @@ func (this *Lcd) Write(buf []byte) (int, error) {
 	return len(buf), nil
 }
 
-func (this *Lcd) Command(cmd byte) error {
-	err := this.writeByte(cmd, 0)
+func (thislcd *Lcd) Command(cmd byte) error {
+	err := thislcd.writeByte(cmd, 0)
 	return err
 }

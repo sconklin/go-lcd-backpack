@@ -5,8 +5,8 @@ import (
 	"github.com/sconklin/go-i2c"
 )
 
+// MCP2300 Register Addresses
 const (
-	// MCP2300 Register Addresses
 	MCP23008_IODIR   = 0
 	MCP23008_IPOL    = 1
 	MCP23008_GPINTEN = 2
@@ -19,8 +19,9 @@ const (
 	MCP23008_GPIO    = 9
 	MCP23008_OLAT    = 10
 )
+
+// MCP2300 register bit definitions
 const (
-	// MCP2300 register bit definitions
 	MCP23008_REGBIT_SEQOP  = 0x20
 	MCP23008_REGBIT_DISSLW = 0x10
 	MCP23008_REGBIT_HAEN   = 0x08
