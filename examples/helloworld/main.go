@@ -18,7 +18,7 @@ func main() {
 	i2c, err := i2c.NewI2C(0x20, 1)
 	check(err)
 	defer i2c.Close()
-	lcd, err := device.NewLcd(i2c, device.LCD_16x2)
+	lcd, err := device.NewLcd(i2c, device.LCD16x2)
 	check(err)
 	lcd.BacklightOn()
 	lcd.Clear()

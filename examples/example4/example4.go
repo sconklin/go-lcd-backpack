@@ -18,7 +18,7 @@ func main() {
 	i2c, err := i2c.NewI2C(0x20, 1)
 	checkError(err)
 	defer i2c.Close()
-	lcd, err := device.NewLcd(i2c, device.LCD_20x4)
+	lcd, err := device.NewLcd(i2c, device.LCD20x4)
 	checkError(err)
 	err = lcd.BacklightOn()
 	checkError(err)
@@ -29,12 +29,12 @@ func main() {
 		"R2D2, where are you?",
 	}*/
 	err = lcd.ShowMessage("Hello world !!! How are you? How are you",
-		device.SHOW_LINE_1|device.SHOW_LINE_2|
-			device.SHOW_ELIPSE_IF_NOT_FIT|device.SHOW_BLANK_PADDING)
+		device.SHOWLINE1|device.SHOWLINE2|
+			device.SHOWELIPSEIFNOTFIT|device.SHOWBLANKPADDING)
 	checkError(err)
 	time.Sleep(3 * time.Second)
 	err = lcd.ShowMessage("Welcome to RPi!!!",
-		device.SHOW_LINE_1|device.SHOW_LINE_2|
-			device.SHOW_ELIPSE_IF_NOT_FIT|device.SHOW_BLANK_PADDING)
+		device.SHOWLINE1|device.SHOWLINE2|
+			device.SHOWELIPSEIFNOTFIT|device.SHOWBLANKPADDING)
 	checkError(err)
 }
