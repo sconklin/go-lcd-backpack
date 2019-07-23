@@ -4,6 +4,8 @@ import (
 	i2c "github.com/sconklin/go-i2c"
 	device "github.com/sconklin/go-lcd-backpack"
 	"log"
+	"time"
+	"fmt"
 )
 
 func check(err error) {
@@ -20,7 +22,6 @@ func main() {
 	check(err)
 	lcd.BacklightOn()
 	lcd.Clear()
-	/*
 	   for {
 	   		lcd.Home()
 	   		t := time.Now()
@@ -32,5 +33,4 @@ func main() {
 	   		//		fmt.Fprint(lcd, "i2c, VGA, and Go")
 	   		time.Sleep(333 * time.Millisecond)
 	   	}
-	*/
 }
