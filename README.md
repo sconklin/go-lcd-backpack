@@ -59,7 +59,7 @@ Installation
 ------------
 
 ```bash
-$ go get -u github.com/d2r2/go-lcd-backpack
+$ go get -u github.com/sconklin/go-lcd-backpack
 ```
 
 Troubleshoting
@@ -104,7 +104,7 @@ This is a fork from (https://github.com/d2r2/go-hd44780), which interfaces with 
 Contact
 -------
 
-Please use [Github issue tracker](https://github.com/d2r2/go-lcd-backpack/issues) for filing bugs or feature requests.
+Please use [Github issue tracker](https://github.com/sconklin/go-lcd-backpack/issues) for filing bugs or feature requests.
 
 License
 -------
