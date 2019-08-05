@@ -75,10 +75,10 @@ func NewLcd(i2c *i2c.I2C, lcdType LcdType) (*Lcd, error) {
 	thislcd := &Lcd{i2c: i2c, backlight: false, lcdType: lcdType}
 	err := MCP23008Init(i2c)
 	if err != nil {
-		log.Debug("Error from MCP23008Init\n")
+		loglcd.Debug("Error from MCP23008Init\n")
 		return nil, err
 	}
-	log.Debug("MCP23008 Init Complete\n")
+	loglcd.Debug("MCP23008 Init Complete\n")
 	initByteSeq := []byte{
 		// Init the LCD display
 		0x03, 0x03, 0x03, // base initialization (RS+RW)
@@ -125,7 +125,7 @@ func (thislcd *Lcd) writeDataWithStrobe(data byte) error {
 	if thislcd.backlight {
 		data |= PINBACKLIGHT
 	}
-	log.Debugf("Writing byte with strobe: [%x]", data)
+	loglcd.Debugf("Writing byte with strobe: [%x]", data)
 	seq := []rawData{
 		{data, 0}, // send data
 		{data | PINEN, 200 * time.Microsecond}, // set strobe
@@ -135,7 +135,7 @@ func (thislcd *Lcd) writeDataWithStrobe(data byte) error {
 }
 
 func (thislcd *Lcd) writeByte(data byte, controlPins byte) error {
-	log.Debugf("Writing byte: [%x]", data)
+	loglcd.Debugf("Writing byte: [%x]", data)
 	err := thislcd.writeDataWithStrobe((data>>1)&0x78 | controlPins)
 	if err != nil {
 		return err
@@ -209,7 +209,7 @@ func (thislcd *Lcd) splitText(text string, options ShowOptions) []string {
 
 func (thislcd *Lcd) ShowMessage(text string, options ShowOptions) error {
 	lines := thislcd.splitText(text, options)
-	log.Debug("Output: %v\n", lines)
+	loglcd.Debug("Output: %v\n", lines)
 	startLine, endLine := thislcd.getLineRange(options)
 	i := 0
 	for {

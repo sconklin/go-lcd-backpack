@@ -37,13 +37,13 @@ const (
 
 func check(err error) {
 	if err != nil {
-		log.Fatal(err)
+		loglcd.Fatal(err)
 	}
 }
 
 // MCP23008Init Sets up the MCP23008 I/O expander
 func MCP23008Init(i2c *i2c.I2C) error {
-	log.Debug("MCP23008Init . . .\n")
+	loglcd.Debug("MCP23008Init . . .\n")
 	err := i2c.WriteRegU8(MCP23008_IOCON, MCP23008_REGBIT_DISSLW|MCP23008_REGBIT_SEQOP)
 	check(err)
 	err = i2c.WriteRegU8(MCP23008_IODIR, 0x00) // All outputs
@@ -62,7 +62,7 @@ func MCP23008Init(i2c *i2c.I2C) error {
 
 // MCP23008PinMode accepts i2c addr, pin and direction and sets it
 func MCP23008PinMode(i2c *i2c.I2C, p uint8, d uint8) error {
-	log.Debug("MCP23008PinMode . . .\n")
+	loglcd.Debug("MCP23008PinMode . . .\n")
 	// only 8 bits!
 	if p > 7 {
 		return errors.New("Only 8 bits!")
@@ -86,19 +86,19 @@ func MCP23008PinMode(i2c *i2c.I2C, p uint8, d uint8) error {
 
 // MCP23008ReadGPIO returns the value from the GPIO inputs
 func MCP23008ReadGPIO(i2c *i2c.I2C) (uint8, error) {
-	log.Debug("MCP23008ReadGPIO . . .\n")
+	loglcd.Debug("MCP23008ReadGPIO . . .\n")
 	return i2c.ReadRegU8(MCP23008_GPIO)
 }
 
 // MCP23008WriteGPIO writes a byte to the GPIO outputs
 func MCP23008WriteGPIO(i2c *i2c.I2C, gpio uint8) error {
-	log.Debug("MCP23008WriteGPIO . . .\n")
+	loglcd.Debug("MCP23008WriteGPIO . . .\n")
 	return i2c.WriteRegU8(MCP23008_GPIO, gpio)
 }
 
 // MCP23008DigitalWrite write a change to a single pin on the GPIO
 func MCP23008DigitalWrite(i2c *i2c.I2C, p uint8, d uint8) error {
-	log.Debug("MCP23008DigitalWrite . . .\n")
+	loglcd.Debug("MCP23008DigitalWrite . . .\n")
 
 	// only 8 bits!
 	if p > 7 {
@@ -122,7 +122,7 @@ func MCP23008DigitalWrite(i2c *i2c.I2C, p uint8, d uint8) error {
 
 // MCP23008PullUp sets whether a pin has a pullup on input
 func MCP23008PullUp(i2c *i2c.I2C, p uint8, d uint8) error {
-	log.Debug("MCP23008PullUp . . .\n")
+	loglcd.Debug("MCP23008PullUp . . .\n")
 
 	// only 8 bits!
 	if p > 7 {
@@ -146,7 +146,7 @@ func MCP23008PullUp(i2c *i2c.I2C, p uint8, d uint8) error {
 }
 
 func MCP23008DigitalRead(i2c *i2c.I2C, p uint8) (uint8, error) {
-	log.Debug("MCP23008DigitalRead . . .\n")
+	loglcd.Debug("MCP23008DigitalRead . . .\n")
 	// only 8 bits!
 	if p > 7 {
 		return 0, errors.New("Only 8 bits!")

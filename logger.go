@@ -7,7 +7,7 @@ import (
 )
 
 // Comment INFO and uncomment DEBUG if you want detail debug output in library.
-var log *logging.Logger = buildLogger("lcd-backpack",
+var loglcd *logging.Logger = buildLogger("lcd-backpack",
 	// logging.DEBUG,
 	logging.INFO,
 )
